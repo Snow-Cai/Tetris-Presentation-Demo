@@ -13,9 +13,13 @@ public class GameManager : MonoBehaviour
 
     public GameObject gameOverPanel;
     public GameObject pausePanel;
+    public GameObject startPanel;
+    public GameObject gameLogicRoot; // Parent of game logic like spawner
+
 
     public bool isGameOver = false;
     public bool isPaused = false;
+    private bool gameStarted = false;
 
     private void Awake()
     {
@@ -24,6 +28,9 @@ public class GameManager : MonoBehaviour
 
         gameOverPanel.SetActive(false);
         pausePanel.SetActive(false);
+        startPanel.SetActive(true);
+        gameLogicRoot.SetActive(false);
+
 
         // Load saved high score
         highScore = PlayerPrefs.GetInt("HighScore", 0);
@@ -32,7 +39,14 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        // Start Game
+        if (!gameStarted && Input.GetKeyDown(KeyCode.Space))
+        {
+            StartGame();
+        }
+
+        // Pause/Resume
+        if (gameStarted && !isGameOver && Input.GetKeyDown(KeyCode.Escape))
         {
             if (isGameOver) return;
 
@@ -41,6 +55,13 @@ public class GameManager : MonoBehaviour
             else
                 PauseGame();
         }
+    }
+
+    private void StartGame()
+    {
+        gameStarted = true;
+        startPanel.SetActive(false);
+        gameLogicRoot.SetActive(true);
     }
 
     public void AddScore(int linesCleared)
