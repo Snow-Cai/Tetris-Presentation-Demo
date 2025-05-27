@@ -131,7 +131,7 @@ public class TetrisMove : MonoBehaviour
         }
     }
 
-    bool ValidMove()
+    bool ValidMove() // sfx for err
     {
         foreach (Transform child in transform)
         {

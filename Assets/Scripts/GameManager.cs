@@ -55,6 +55,19 @@ public class GameManager : MonoBehaviour
             else
                 PauseGame();
         }
+
+        if (isGameOver && Input.GetKeyDown(KeyCode.Space))
+        {
+            RestartGame();
+        }
+
+        if (score > highScore)
+        {
+            highScore = score;
+            PlayerPrefs.SetInt("HighScore", highScore);
+            PlayerPrefs.Save();
+            highScoreText.text = "High Score: " + highScore;
+        }
     }
 
     private void StartGame()
@@ -72,7 +85,7 @@ public class GameManager : MonoBehaviour
             case 1: points = 100; break;
             case 2: points = 300; break;
             case 3: points = 500; break;
-            case 4: points = 800; break;
+            case 4: points = 1000; break;
         }
         score += points;
         scoreText.text = "Score: " + score;
@@ -109,7 +122,6 @@ public class GameManager : MonoBehaviour
 
         Debug.Log("Game Over triggered");
     }
-
 
     public void RestartGame()
     {
