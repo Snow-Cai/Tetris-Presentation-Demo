@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -72,6 +73,7 @@ public class GameManager : MonoBehaviour
 
     private void StartGame()
     {
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.gameStartSound);
         gameStarted = true;
         startPanel.SetActive(false);
         gameLogicRoot.SetActive(true);
@@ -93,18 +95,22 @@ public class GameManager : MonoBehaviour
 
     public void PauseGame()
     {
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.gameStartSound);
         isPaused = true;
         pausePanel.SetActive(true);
     }
 
     public void ResumeGame()
     {
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.gameStartSound);
         isPaused = false;
         pausePanel.SetActive(false);
     }
 
     public void GameOver()
     {
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.gameOverSound);
+        AudioManager.Instance.musicSource.Stop();
         isGameOver = true;
 
         if (score > highScore)
@@ -126,5 +132,6 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        AudioManager.Instance.musicSource.Play();
     }
 }

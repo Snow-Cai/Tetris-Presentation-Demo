@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class TetrisMove : MonoBehaviour
 {
@@ -19,11 +20,12 @@ public class TetrisMove : MonoBehaviour
 
         if (Time.time - previousTime > (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S) ? fallTime / 10 : fallTime))
         {
-            transform.position += new Vector3(0, -1, 0);
+            transform.position += new Vector3(0, -1, 0);            
             if (!ValidMove())
             {
                 transform.position += new Vector3(0, 1, 0);
                 AddToGrid(); // adds the block to the grid when it touches the ground
+                AudioManager.Instance.PlaySFX(AudioManager.Instance.blockPlacedSound);
                 CheckClear();
 
                 this.enabled = false; // stop the script when the block touches the ground
@@ -53,7 +55,14 @@ public class TetrisMove : MonoBehaviour
         {
             transform.RotateAround(transform.TransformPoint(rotationPoint), Vector3.forward, 90);
             if (!ValidMove())
+            {
                 transform.RotateAround(transform.TransformPoint(rotationPoint), Vector3.forward, -90);
+                AudioManager.Instance.PlayRotateSound(false); // play error sound
+            }
+            else
+            {
+                AudioManager.Instance.PlayRotateSound(true); // play success sound
+            }
         }
     }
 
@@ -93,6 +102,7 @@ public class TetrisMove : MonoBehaviour
         if (linesCleared > 0)
         {
             GameManager.Instance.AddScore(linesCleared);
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.lineClearSound);
         }
     }
 
