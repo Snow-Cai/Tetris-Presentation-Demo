@@ -4,7 +4,6 @@ using System;
 public class TetrisMove : MonoBehaviour
 {
     private float previousTime;
-    public float fallTime = 0.8f;
     public static int height = 20;
     public static int width = 10;
     public Vector3 rotationPoint;
@@ -18,7 +17,8 @@ public class TetrisMove : MonoBehaviour
 
         Move();
 
-        if (Time.time - previousTime > (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S) ? fallTime / 10 : fallTime))
+    float currentFallTime = GameManager.Instance.GetFallTime();
+    if (Time.time - previousTime > (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S) ? currentFallTime / 10 : currentFallTime))
         {
             transform.position += new Vector3(0, -1, 0);            
             if (!ValidMove())

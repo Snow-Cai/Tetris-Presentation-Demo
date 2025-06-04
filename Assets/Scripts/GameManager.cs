@@ -93,6 +93,12 @@ public class GameManager : MonoBehaviour
         scoreText.text = "Score: " + score;
     }
 
+    public float GetFallTime()
+    {
+        // Start at 0.8s, decrease as score increases (min 0.1s)
+        return Mathf.Max(0.1f, 0.8f - (score / 1000f) * 0.1f);
+    }
+
     public void PauseGame()
     {
         AudioManager.Instance.PlaySFX(AudioManager.Instance.gameStartSound);
