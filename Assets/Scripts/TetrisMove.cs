@@ -10,6 +10,8 @@ public class TetrisMove : MonoBehaviour
 
     private static Transform[,] grid = new Transform[width, height]; // stores 2D array of transforms
 
+    public static Transform[,] Grid => grid;
+    
     // Update is called once per frame
     void Update()
     {
